@@ -21,3 +21,17 @@ function middleware(nextCallback) {
     return void nextCallback();
   }
 }
+
+function fetchResults(
+  callback: (status: number, results: number[]) => void,
+): void {
+  const result = callback(200, [1, 2, 3]);
+
+  console.log(result);
+}
+
+function handler(status: number): boolean {
+  return true;
+}
+
+fetchResults(handler);
