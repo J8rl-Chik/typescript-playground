@@ -31,22 +31,24 @@ const x = createElment2("a", { src: "https://fettblog.eu" }); // 에러
 
 // 커스텀 요소가 필요하다면? 인터페이스를 정의하면 기존 인터페이스에 해당 프로퍼티가 추가된다
 // 책에서는 예시로 나왔지만 현재 안된다.
-interface HTMLElementTagNameMap {
-  [x: string]: HTMLUnknownElement;
+declare global {
+  interface HTMLElementTagNameMap {
+    [x: string]: HTMLUnknownElement;
+  }
 }
 
 // HTMLElementTagNameMap는 기본 제공 타입이다.
-function createElment3<T extends keyof HTMLElementTagNameMap>(
+function createElement3<T extends keyof HTMLElementTagNameMap>(
   tag: T,
   props?: Partial<HTMLElementTagNameMap[T]>,
-): HTMLElementTagNameMap[] {
+): HTMLElementTagNameMap[T] {
   const elem = document.createElement(tag);
 
   return Object.assign(elem, props);
 }
 
-const a3 = createElment3("a", { href: "https://fettblog.eu" });
-const b = createElment3("my-element");
+const a3 = createElement3("a", { href: "https://fettblog.eu" });
+const b = createElement3("my-element");
 
 // 태그명에 대시를 포함하는 웹 컴포넌트는 어떻게 할까?
 // 문자열 템플릿 리터럴 타입에 매핑된 타입을 사용해 볼 수 있다.
@@ -58,7 +60,7 @@ function createElment4<T extends keyof AllElements2>(
   tag: T,
   props?: Partial<AllElements2[T]>,
 ): AllElements2[T] {
-  const elem = document.createElement(tag as string) as AllElements2[T];
+  const elem = document.createElement(tag) as AllElements2[T];
 
   return Object.assign(elem, props);
 }
@@ -71,10 +73,12 @@ const c = createElment4("thisWillError");
 function createElment5<T extends keyof AllElements2>(
   tag: T,
   props?: Partial<AllElements2[T]>,
-): AllElements2[T] {}
+): AllElements2[T];
 
 function createElment5(tag: string, props?: Partial<HTMLElement>): HTMLElement {
   const elem = document.createElement(tag);
 
   return Object.assign(elem, props);
 }
+
+const b3 = createElment5("myelement");

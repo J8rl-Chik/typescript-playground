@@ -1,3 +1,9 @@
+declare global {
+  interface HTMLElementTagNameMap {
+    "my-element": HTMLElement; // 필요한 커스텀 엘리먼트 타입 지정
+  }
+}
+
 let i = void 2;
 
 // 즉시 실행 함수를 호출할때 활용
