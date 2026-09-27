@@ -24,7 +24,7 @@ type DirectionLength = Direction["length"];
 
 type Values<T> = T[keyof T];
 
-const commandItems = ["echo", "grep", "sed", "awk", "cut", "uniq"];
+const commandItems = ["echo", "grep", "sed", "awk", "cut", "uniq"] as const;
 
 function capitalize(x: string): string {
   return x.charAt(0).toUpperCase() + x.slice(1);
@@ -45,3 +45,8 @@ function createEnum<T extends readonly string[], B extends boolean>(
 
 const Command = createEnum(commandItems); // string 열거형
 const CommandN = createEnum(commandItems, true); // number 열거형
+
+type Command2 = Values<typeof Command>;
+
+console.log(Command);
+console.log(CommandN);
